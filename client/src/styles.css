@@ -31,22 +31,12 @@
   background-color: transparent;
   border: 1px solid lightgray;
   outline: none;
-  color: lightgray;
+  color: rgb(209, 110, 110);
   letter-spacing: 1px;
   line-height: 20px;
   /* ::placeholder {
     color: lightgray;
   } */
-}
-
-.Button {
-  background-color: pink;
-  width: 100%;
-  border: none;
-  height: 50px;
-  border-radius: 10px;
-  color: #46516e;
-  font-size: 17px;
 }
 
 .Form {
@@ -92,14 +82,7 @@
   display: block;
 }
 
-.PartnerMessage .MsgHead, .MyMessage .MsgHead {
-  margin-right: 7px;
-}
-
-.PartnerMessage .MsgBody {
-}
-
-.ID {
+.my-id {
     background-color: rgb(233, 197, 35);
     border: none;
     border-radius: 10px;
@@ -107,4 +90,95 @@
     font-size: 17px;
     margin: 10px;
     padding: 10px;
+}
+
+
+.chat-room-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+}
+
+.room-name {
+  margin-top: 0;
+}
+
+.messages-container {
+  flex: 1;
+  min-height: 100px;
+  overflow: auto;
+  border: 1px solid black;
+  border-radius: 7px 7px 0 0;
+}
+
+.messages-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.new-message-input-field {
+  width: 100%;
+  max-height: 50%;
+  font-size: 20px;
+  resize: none;
+  border: 1px solid black;
+  border-radius: 0 0 7px 7px;
+  padding: 0;
+}
+
+.message-item {
+  width: 55%;
+  margin: 8px;
+  padding: 12px 8px;
+  word-break: break-word;
+  border-radius: 4px;
+  color: white;
+}
+
+.my-message {
+  background-color: rgb(0, 132, 255);
+  margin-left: auto;
+}
+
+.received-message {
+  background-color: #3f4042;
+  margin-right: auto;
+}
+
+.submit-button {
+  font-size: 28px;
+  font-weight: 600;
+  color: white;
+  background: #31a24c;
+  background-color: pink;
+  width: 100%;
+  border: none;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.messages-container, .new-message-input-field, .submit-button {
+  border-color: #9a9a9a;
+}
+
+.system-message {
+  background-color: #d6bcea;
+  color: black;
+}
+
+.my-message{
+  background-color: royalblue
+}
+
+.partner-message {
+  background-color: seagreen;
+}
+
+.message-item span {
+  margin: 5px;
 }

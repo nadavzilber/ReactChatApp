@@ -10,13 +10,13 @@ io.on("connection", socket => {
 
     socket.on("client-message", data => {
         console.log('new client message', data)
-        io.in(data.room).emit("server-message", { id: data.message, name: data.name, body: data.body });
+        io.in(data.room).emit("server-message", { id: data.message, name: data.name, body: data.body, time: new Date().toLocaleString() });
     });
 
     socket.on("client-action", data => {
         console.log('new client action', data);
         socket.join(data.room);
-        let msg = { id: "System", body: `${data.nickname} has joined the ${data.room} chat room.` };
+        let msg = { id: "System", name: "System", body: `${data.nickname} has joined the ${data.room} chat room.`, time: new Date().toLocaleString() };
         io.emit("login", true);
         io.in(data.room).emit("server-message", msg);
     });
