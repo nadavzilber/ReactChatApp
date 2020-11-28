@@ -10,7 +10,7 @@ io.on("connection", socket => {
 
     socket.on("client-message", data => {
         console.log('new client message', data)
-        io.in(data.room).emit("server-message", { id: data.message, name: data.name, body: data.body, time: new Date().toLocaleString() });
+        io.in(data.room).emit("server-message", { id: data.id, name: data.name, body: data.body, time: new Date().toLocaleString() });
     });
 
     socket.on("client-action", data => {
@@ -18,6 +18,7 @@ io.on("connection", socket => {
         socket.join(data.room);
         let msg = { id: "System", name: "System", body: `${data.nickname} has joined the ${data.room} chat room.`, time: new Date().toLocaleString() };
         io.emit("login", true);
+        console.log('server-msg msg ====>',msg)
         io.in(data.room).emit("server-message", msg);
     });
 

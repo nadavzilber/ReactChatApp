@@ -4,17 +4,21 @@ import io from "socket.io-client";
 import Message from './components/Message/Message';
 import LoginForm from './components/Form/LoginForm';
 import ChatForm from './components/Form/ChatForm';
+//import scrollToBottom from './assets/scrollToBottom.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons'
 
 /* TODO: 
 1- add nickname instead of id ✔️
 2- add sender name/id to msgs ✔️
 3- add rooms ✔️
 4- add system msgs (x has entered) ✔️
-5- change css - msg should have header and body and timestamp
-6- export repeating elements to components
+5- msg should have header and body and timestamp ✔️
+6- export repeating elements to components ✔️
 */
 
 const App = () => {
+  const msgRef = useRef(null);
   const [yourID, setYourID] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -65,6 +69,11 @@ const App = () => {
     socketRef.current.emit("client-message", messageObject);
   }
 
+  const executeScroll = () => {
+    console.log('scroll')
+    msgRef.current.scrollIntoView();
+  }
+
   function handleChange(e) {
     setMessage(e.target.value);
   }
@@ -107,6 +116,7 @@ const App = () => {
                 time={message.time}
               />
             })}
+            <div className="messages-footer" ref={msgRef}></div>
           </div>
         </div>
         <ChatForm
@@ -115,7 +125,11 @@ const App = () => {
           handleChange={handleChange}
           onKeyPressed={onKeyPressed} />
       </>}
-      <label className="my-id">{nickname} {yourID}</label>
+      <div className="my-id">
+        <FontAwesomeIcon className="scroll-down" icon={faArrowAltCircleDown} onClick={executeScroll} />
+        <label style={{ "margin-right": "20px" }}>{nickname}</label>
+        <label>{yourID}</label>
+      </div>
     </div>
   );
 };

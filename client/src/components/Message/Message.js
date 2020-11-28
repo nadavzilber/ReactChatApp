@@ -6,6 +6,7 @@ import '../../styles.css';
 */
 
 const Message = ({ type, isMe, body, sender, time }) => {
+    console.log('Message ==>', { type, isMe, body, sender, time })
     return (
         <div className="message-item">
             <div className={type === "System" ? "system-message" : isMe ? "my-message" : "partner-message"}>

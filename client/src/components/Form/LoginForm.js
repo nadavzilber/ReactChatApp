@@ -14,12 +14,14 @@ const LoginForm = ({ onLogin, nickname, setNickname, onKeyPressed, selectRoom })
                 onKeyDown={(e) => onKeyPressed(e, 'sign-in')}
                 placeholder="Enter your nickname..."
                 className="TextArea" />
-            <label>Select a chat room</label>
-            <select id="dropdown" defaultValue="General" onChange={(e) => selectRoom(e.target.value)}>
-                <option value="General">General</option>
-                <option value="Dev">Dev</option>
-                <option value="Marketing">Marketing</option>
-            </select>
+            <div className="selection-container">
+                <label>Select a chat room</label>
+                <select id="dropdown" className="room-select" defaultValue="General" onChange={(e) => selectRoom(e.target.value)}>
+                    <option value="General">General</option>
+                    <option value="Dev">Dev</option>
+                    <option value="Marketing">Marketing</option>
+                </select>
+            </div>
             <button className="submit-button">Start chatting</button>
         </form>
     </div>
