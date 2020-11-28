@@ -89,10 +89,10 @@
 
 .ID {
     background-color: rgb(233, 197, 35);
-    width: 100%;
     border: none;
-    height: 60px;
     border-radius: 10px;
     color: #46516e;
     font-size: 17px;
+    margin: 10px;
+    padding: 10px;
 }

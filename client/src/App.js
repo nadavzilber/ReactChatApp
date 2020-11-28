@@ -45,6 +45,11 @@ const App = () => {
     setMessage(e.target.value);
   }
 
+  const onKeyPressed = (event) => {
+    if (event.keyCode === 13) //ENTER
+      sendMessage(event);
+  }
+
   return (
     <div className="Page">
       <div className="Container">
@@ -68,10 +73,10 @@ const App = () => {
         })}
       </div>
       <form onSubmit={sendMessage} className="Form">
-        <textarea value={message} onChange={handleChange} placeholder="Say something..." className="TextArea" />
+        <textarea value={message} onChange={handleChange} onKeyDown={onKeyPressed} placeholder="Say something..." className="TextArea" />
         <button className="Button">Send</button>
-        <label className="ID">{yourID}</label>
       </form>
+      <label className="ID">{yourID}</label>
     </div>
   );
 };
