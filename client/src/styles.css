@@ -71,6 +71,10 @@
   border-bottom-right-radius: 10%;
 }
 
+.MyMessage .System {
+  background-color: chartreuse;
+}
+
 .PartnerRow {
   justify-content: flex-start;
 }
@@ -85,6 +89,14 @@
   text-align: center;
   border-top-left-radius: 10%;
   border-bottom-left-radius: 10%;
+  display: block;
+}
+
+.PartnerMessage .MsgHead, .MyMessage .MsgHead {
+  margin-right: 7px;
+}
+
+.PartnerMessage .MsgBody {
 }
 
 .ID {
