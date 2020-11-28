@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import '../../styles.css';
 
-/* TODO:  ✔️ 
-1-
-*/
-
 const ChatForm = ({ sendMessage, message, handleChange, onKeyPressed }) => {
-    return <form onSubmit={(e) => sendMessage(e, { type: "chat-msg" })}>
+    return <form onSubmit={sendMessage}>
         <textarea
             value={message}
             onChange={handleChange}

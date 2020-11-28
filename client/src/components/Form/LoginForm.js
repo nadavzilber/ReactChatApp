@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import '../../styles.css';
 
-/* TODO:  ✔️ 
-1-
-*/
 
 const LoginForm = ({ onLogin, nickname, setNickname, onKeyPressed, selectRoom }) => {
+    const validateName = (input) => {
+        if (input.length < 30)
+            setNickname(input)
+    }
     return <div>
         <form onSubmit={onLogin}>
             <input
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) => validateName(e.target.value)}
                 onKeyDown={(e) => onKeyPressed(e, 'sign-in')}
                 placeholder="Enter your nickname..."
                 className="TextArea" />

@@ -6,7 +6,7 @@ import LoginForm from './components/Form/LoginForm';
 import ChatForm from './components/Form/ChatForm';
 //import scrollToBottom from './assets/scrollToBottom.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 /* TODO: 
 1- add nickname instead of id ✔️
@@ -15,6 +15,9 @@ import { faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons'
 4- add system msgs (x has entered) ✔️
 5- msg should have header and body and timestamp ✔️
 6- export repeating elements to components ✔️
+7- add "user is typing" - might be weird for multiple clients
+8- add tagging others with @
+9- add leave chat room button ✔️
 */
 
 const App = () => {
@@ -35,38 +38,31 @@ const App = () => {
       setYourID(id);
     });
 
-    socketRef.current.on("server-message", (message) => {
-      receivedMessage(message);
+    socketRef.current.on("server-message", (roomMsgs) => {
+      receivedMessages(roomMsgs);
     });
 
     socketRef.current.on("login", status => {
+      console.log(nickname,'GOT A LOGIN STATUS UPDATE:',status)
       setLogged(status)
     });
   }, []);
 
-  function receivedMessage(message) {
-    setMessages(oldMsgs => [...oldMsgs, message]);
+  function receivedMessages(roomMsgs) {
+    console.log('RECEIVED roomMsgs:', roomMsgs)
+    setMessages(roomMsgs);
   }
 
-  function sendMessage(event, data) {
+  function sendMessage(event) {
     if (!!event) event.preventDefault();
-    let messageObject;
-    if (data.type === "chat-msg")
-      messageObject = {
-        room,
-        body: message,
-        id: yourID,
-        name: nickname
-      };
-    else if (data.type === "system-msg")
-      messageObject = {
-        room,
-        body: data.message,
-        id: "System",
-        name: "System"
-      };
+
+    socketRef.current.emit("client-message", {
+      room,
+      body: message,
+      id: yourID,
+      nickname
+    });
     setMessage("");
-    socketRef.current.emit("client-message", messageObject);
   }
 
   const executeScroll = () => {
@@ -81,7 +77,7 @@ const App = () => {
   const onKeyPressed = (event, funcName) => {
     if (event.keyCode === 13) { //ENTER 
       if (funcName === "send-msg")
-        sendMessage(event, { type: "chat-msg" });
+        sendMessage(event);
       else if (funcName === "sign-in")
         onLogin(event);
     }
@@ -90,11 +86,17 @@ const App = () => {
   const onLogin = (event) => {
     event.preventDefault();
     if (nickname.trim().length > 0) {
-      const data = { nickname, room };
+      const data = { nickname, room, actionType: 'join-room' };
       socketRef.current.emit("client-action", data);
     }
     else setNickname("");
   }
+
+  const leaveRoom = () => {
+    const data = { nickname, room, actionType: 'leave-room' };
+    socketRef.current.emit("client-action", data);
+  }
+
   return (
     <div className="chat-room-container">
       {!isLogged && <LoginForm
@@ -104,6 +106,7 @@ const App = () => {
         onKeyPressed={onKeyPressed}
         selectRoom={selectRoom} />}
       {isLogged && <>
+        <div>{room} Chat Room</div>
         <div className="messages-container">
           <div className="messages-list">
             {messages.map((message, index) => {
@@ -111,7 +114,7 @@ const App = () => {
                 key={index}
                 type={message.id}
                 isMe={message.id === yourID}
-                sender={message.name}
+                sender={message.nickname}
                 body={message.body}
                 time={message.time}
               />
@@ -125,10 +128,11 @@ const App = () => {
           handleChange={handleChange}
           onKeyPressed={onKeyPressed} />
       </>}
-      <div className="my-id">
+      <div className="my-area">
         <FontAwesomeIcon className="scroll-down" icon={faArrowAltCircleDown} onClick={executeScroll} />
-        <label style={{ "margin-right": "20px" }}>{nickname}</label>
+        <label style={{ marginRight: "20px" }}>{nickname}</label>
         <label>{yourID}</label>
+        <FontAwesomeIcon className="leave-room" icon={faSignOutAlt} onClick={leaveRoom} />
       </div>
     </div>
   );
